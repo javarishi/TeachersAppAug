@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>TeachersApp</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+   </welcome-file-list>
+   
+   <servlet>
+   	<servlet-name>TeachersServlet</servlet-name>
+   	<servlet-class>com.h2kinfosys.teachersapp.web.TeachersServlet</servlet-class>
+   	<init-param>
+   		<param-name>RegionCode</param-name>
+   		<param-value>GA</param-value>
+   	</init-param>
+   </servlet>
+   
+   <servlet-mapping>
+   		<servlet-name>TeachersServlet</servlet-name>
+   		<url-pattern>/teachers</url-pattern>
+   </servlet-mapping>
+   
+   
+   <filter>
+   		<filter-name>audit</filter-name>
+   		<filter-class>com.h2kinfosys.teachersapp.filter.AuditFilter</filter-class>
+   </filter>
+   <filter-mapping>
+   		<filter-name>audit</filter-name>
+   		<url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+   
+   <filter>
+   		<filter-name>auth</filter-name>
+   		<filter-class>com.h2kinfosys.teachersapp.filter.AuthenticationFilter</filter-class>
+   </filter>
+   <filter-mapping>
+   		<filter-name>auth</filter-name>
+   		<url-pattern>/login</url-pattern>
+   </filter-mapping>
+   
+   
+   
+   
+   <!-- Session timeout is for application (in minutes) -->
+   <session-config>
+   	<session-timeout>10</session-timeout>
+   </session-config>
+   
+</web-app>
