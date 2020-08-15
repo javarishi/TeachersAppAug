@@ -7,6 +7,9 @@ import com.h2kinfosys.teachersapp.exception.InvalidDataException;
 public class TeachersBO {
 
 	private TeacherDAO dao = null;
+	final static String Prelim  = "Prelim Teacher";
+	final static String Experienced  = "Experienced Teacher";
+	final static String Pro  = "Pro Teacher";
 	
 	public TeachersBO(String regionCode) {
 		dao = new TeacherDAO();
@@ -44,5 +47,33 @@ public class TeachersBO {
 			return "New Teacher";
 		}
 		return "Invalid Id Provided";
+	}
+	
+	// Write test cases for this add it in Suite
+	public boolean validateAge(int age) {
+		return false;
+	}
+	
+	
+	public String validateSkills(int noOfYrs) throws InvalidDataException {
+		String result = null;
+		if(noOfYrs >= 0) {
+			if(noOfYrs <= 3) {
+				result = "Prelim Teacher";
+			}else if (noOfYrs <= 10) {
+				result = "Experienced Teacher";
+			}else {
+				result = "Pro Teacher";
+			}
+		}else {
+			throw new InvalidDataException("Invalid Experience Entered ");
+		}
+		return result;
+	}
+	
+	public static void main(String[] args) throws InvalidDataException {
+		TeachersBO bo = new TeachersBO("GA");
+		System.out.println(bo.validateSkills(11));
+		
 	}
 }

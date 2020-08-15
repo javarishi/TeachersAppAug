@@ -10,4 +10,7 @@ public class InvalidDataException extends Exception{
 		super(ex);
 	}
 
+	public InvalidDataException(String message) {
+		super(message);
+	}
 }
