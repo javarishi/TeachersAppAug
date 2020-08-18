@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.h2kinfosys.teachersapp.bo.TeachersBO;
 import com.h2kinfosys.teachersapp.dto.TeacherTO;
 import com.h2kinfosys.teachersapp.exception.InvalidDataException;
+import com.h2kinfosys.teachersapp.util.ConnectionUtil;
 
 /*
  * request URL -> http://localhost:8080/TeachersApp/teachers
@@ -58,15 +59,21 @@ public class TeachersServlet extends HttpServlet{
 		teacher.setLastName( req.getParameter("lastName"));
 		teacher.setSkill(req.getParameter("skill"));
 		String result = null;
+		String companyName = null;
 		try {
+			
 			result = teachersBO.executeCreateNewTeacher(teacher);
+			companyName = ConnectionUtil.getCompanyName();
 		} catch (InvalidDataException e) {
 			result = e.getMessage();
+			e.printStackTrace();
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		PrintWriter out = resp.getWriter();
 		out.println("<HTML> <BODY>");
+		out.println("<p> <h3>" + companyName + "</h3> <p> ");
 		out.println("<p> <h3>" + result + "</h3> <p> ");
 		out.println(" </BODY> </HTML>");
 	}

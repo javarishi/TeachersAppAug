@@ -1,27 +1,37 @@
 package com.h2kinfosys.teachersapp.util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 public class ConnectionUtil {
 
-	private static String url = "jdbc:mysql://localhost:3306/sakila";
-	private static String userName = "root";
-	private static String password = "password";
+	private static String JNDI_NAME = "jdbc/TestDB";
+	private static String JNDI_COMPANY = "companyName";
+	private static String companyName = null;
 	
+	/*
+	 * public static Connection getConnection() throws Exception{ // Driver driver =
+	 * new Driver(); // DriverManager.registerDriver(driver);
+	 * Class.forName("com.mysql.cj.jdbc.Driver"); Properties props = new
+	 * Properties(); props.put("user", userName); props.put("password", password);
+	 * Connection conn = DriverManager.getConnection(url,props); return conn; }
+	 */
 	
 	public static Connection getConnection() throws Exception{
-		// Driver driver = new Driver();
-		// DriverManager.registerDriver(driver);
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		Properties props = new Properties();
-		props.put("user", userName);
-		props.put("password", password);
-		Connection conn = DriverManager.getConnection(url,props);
+		InitialContext initContext = new InitialContext();
+		Context context = (Context) initContext.lookup("java:comp/env");
+		DataSource ds = (DataSource) context.lookup(JNDI_NAME);
+		Connection conn = ds.getConnection();
 		return conn;
 	}
+	
+	
+	
+	
 	
 	public static void main(String[] args) {
 		try {
@@ -41,6 +51,28 @@ public class ConnectionUtil {
 				e.printStackTrace();
 			}
 		}
+	}
+
+
+
+
+
+	/**
+	 * @return the companyName
+	 */
+	public static String getCompanyName() {
+		return companyName;
+	}
+
+
+
+
+
+	/**
+	 * @param companyName the companyName to set
+	 */
+	public static void setCompanyName(String companyName) {
+		ConnectionUtil.companyName = companyName;
 	}
 	
 }
